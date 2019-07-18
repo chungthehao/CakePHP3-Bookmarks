@@ -58,7 +58,8 @@ class TagsController extends AppController
             if ($this->Tags->save($tag)) {
                 $this->Flash->success(__('The tag has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                //return $this->redirect(['controller' => 'Bookmarks', 'action' => 'index']);
+                return $this->redirect(['action' => 'index']); // not provide 'controller' -> the same controller
             }
             $this->Flash->error(__('The tag could not be saved. Please, try again.'));
         }
