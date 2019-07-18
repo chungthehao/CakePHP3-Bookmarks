@@ -73,25 +73,31 @@ class UsersTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
+    // Validator class contains our validation rules ($validator: instance)
     public function validationDefault(Validator $validator)
     {
+        # Store those stateless validation rules
+        # Apply khi mình create hoặc modify an entity (new entity rồi patch entity -> validate liền)
         $validator
             ->integer('id')
-            ->allowEmptyString('id', null, 'create');
+            ->allowEmptyString('id', null, 'create'); // Allow to be empty when we create the record
 
         $validator
-            ->email('email')
-            ->requirePresence('email', 'create')
-            ->notEmptyString('email');
+            ->email('email') // Ensure that is a valid email
+            ->requirePresence('email', 'create') // Require that email at least has some value set
+            ->notEmptyString('email'); // Ensure that value is NOT either a null or an empty string ('')
 
+        // Scalar: accept integers, floats, strings and booleans, but not accept arrays, objects, resources and nulls.
         $validator
             ->scalar('password')
+            ->add('password', 'nganNhat', ['rule' => ['minLength', 6]]) // nganNhat sẽ là tên lỗi hiện trong mảng errors
             ->maxLength('password', 255)
             ->requirePresence('password', 'create')
             ->notEmptyString('password');
 
         $validator
             ->scalar('firstname')
+            ->minLength('firstname', 3)
             ->maxLength('firstname', 255)
             ->requirePresence('firstname', 'create')
             ->notEmptyString('firstname');
@@ -114,6 +120,7 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
+        # Apply khi mình save an entity
         $rules->add($rules->isUnique(['email']));
 
         return $rules;
