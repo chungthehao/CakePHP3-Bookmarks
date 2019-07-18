@@ -30,4 +30,10 @@ class Tag extends Entity
         'modified' => true,
         'bookmarks' => true
     ];
+
+    # Entity setter for 'name' field in 'tags' table
+    protected function _setName($name)
+    {
+        return mb_strtolower($name);
+    }
 }

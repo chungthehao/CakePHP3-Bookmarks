@@ -45,4 +45,10 @@ class User extends Entity
     protected $_hidden = [
         'password'
     ];
+
+    # Getter có thể là xào nấu trên real field cùng tên hoặc virtual field (no value being passed ở params)
+    protected function _getName()
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
 }
