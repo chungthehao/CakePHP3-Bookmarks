@@ -31,6 +31,12 @@ class BookmarksController extends AppController
     {
         $bookmarks = $this->Bookmarks->find('all')->limit($limit)->where([
             'user_id' => 1
+        ])->contain([
+            'Tags' => function ($q) {
+                return $q->where([
+                    'Tags.name LIKE' => '%t%'
+                ]);
+            }
         ]);
 
         $this->set('bookmarks', $bookmarks);
