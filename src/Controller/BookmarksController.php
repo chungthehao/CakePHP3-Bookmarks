@@ -70,7 +70,7 @@ class BookmarksController extends AppController
         // - $bookmark: entity instance (App\Model\Entity\Bookmark)
 
         if ($this->request->is('post')) {
-            $bookmark = $this->Bookmarks->patchEntity($bookmark, $this->request->getData()); // Đưa data từ form vô new instance đó
+            $bookmark = $this->Bookmarks->patchEntity($bookmark, $this->request->getData()); // Dán (patch) data từ form vô new instance đó
             if ($this->Bookmarks->save($bookmark)) {
                 $this->Flash->success(__('The bookmark has been saved.'));
 
