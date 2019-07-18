@@ -22,6 +22,9 @@ class BookmarksController extends AppController
         // * Chỉ ra layout sẽ dùng
         // $this->viewBuilder()->setLayout('ajax');
 
+        // * Flash component & Flash element
+        // $this->Flash->default('Ahihi!');
+
         $this->paginate = [
             'contain' => ['Users', 'Tags']
         ];
