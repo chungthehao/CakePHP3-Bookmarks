@@ -40,12 +40,24 @@ class BookmarksController extends AppController
         $this->set(compact('bookmarks'));
     }
 
-    public function export($limit) // ~/bookmarks/export/2
+    public function export($limit = 100) // ~/bookmarks/export/2
     {
         // * Dùng custom component
         $limit = $this->Validate->validLimit($limit, 100);
 
-        $bookmarks = $this->Bookmarks->find('all')->limit($limit)->where([
+        // * Dùng custom behavior 'UsersFindBehavior'
+        $bookmarks = $this->Bookmarks
+            ->find('forUser', ['user_id' => 1])
+            ->limit($limit)
+            ->contain([
+                'Tags' => function ($q) {
+                    return $q->where([
+                        'Tags.name LIKE' => '%t%'
+                    ]);
+                }
+            ]);
+
+        /*$bookmarks = $this->Bookmarks->find('all')->limit($limit)->where([
             'user_id' => 1
         ])->contain([
             'Tags' => function ($q) {
@@ -53,7 +65,7 @@ class BookmarksController extends AppController
                     'Tags.name LIKE' => '%t%'
                 ]);
             }
-        ]);
+        ]);*/
 
         $this->set('bookmarks', $bookmarks);
     }
