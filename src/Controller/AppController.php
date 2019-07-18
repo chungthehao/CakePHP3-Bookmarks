@@ -41,6 +41,9 @@ class AppController extends Controller
     {
         parent::initialize();
 
+        // - Components are packages of logic that are shared between controllers
+        // - Components để mình giảm lặp code ở các controller cho các task phổ biến
+
         $this->loadComponent('RequestHandler', [
             'enableBeforeRedirect' => false,
         ]);
