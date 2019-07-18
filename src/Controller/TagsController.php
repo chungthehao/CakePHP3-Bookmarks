@@ -12,6 +12,11 @@ use App\Controller\AppController;
  */
 class TagsController extends AppController
 {
+    // Ghi đè property của cha (ở class Controller, là [])
+    public $paginate = [
+        'order' => ['Tags.name' => 'ASC']
+    ];
+
     /**
      * Index method
      *
