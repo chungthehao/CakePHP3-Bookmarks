@@ -67,13 +67,23 @@ class BookmarksTable extends Table
             ->scalar('title')
             ->maxLength('title', 255)
             ->requirePresence('title', 'create')
-            ->notEmptyString('title');
+            ->notEmptyString('title')
+            ->add('title', 'notUrl', [
+                'rule' => ['notUrl'], // custom method
+                'provider' => 'table', // Biết đường tìm custom rule ở trong này
+                'message' => 'The title field can not be an url.'
+            ]);
 
         $validator
             ->scalar('url')
             ->maxLength('url', 255)
             ->requirePresence('url', 'create')
-            ->notEmptyString('url');
+            ->notEmptyString('url')
+            /* Param 2: The rule error being called 'url' */
+            /* Param 3: The rule method to call is 'url' */
+            ->add('url', 'url', [
+                'rule' => ['url']
+            ]);
 
         return $validator;
     }
@@ -90,5 +100,12 @@ class BookmarksTable extends Table
         $rules->add($rules->existsIn(['user_id'], 'Users'));
 
         return $rules;
+    }
+
+    # Custom validation rule/method
+    // Param 2: a context array that includes contextual data about the validation operation
+    public function notUrl($value, array $context)
+    {
+        return !(\Cake\Validation\Validation::url($value));
     }
 }
