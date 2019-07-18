@@ -44,24 +44,31 @@ class BookmarksController extends AppController
     }
 
     /**
-     * Add method
+     * Add method (Render form để add + Process khi submit form đó)
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function add()
     {
-        $bookmark = $this->Bookmarks->newEntity();
+        // - $this->Bookmarks: instance of App\Model\Table\BookmarksTable (Deal with saving & reading data from the database)
+        $bookmark = $this->Bookmarks->newEntity(); // Creating a new entity (a new single row from the table of a bookmark)
+        // - $bookmark: entity instance (App\Model\Entity\Bookmark)
+
         if ($this->request->is('post')) {
-            $bookmark = $this->Bookmarks->patchEntity($bookmark, $this->request->getData());
+            $bookmark = $this->Bookmarks->patchEntity($bookmark, $this->request->getData()); // Đưa data từ form vô new instance đó
             if ($this->Bookmarks->save($bookmark)) {
                 $this->Flash->success(__('The bookmark has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'index']); // Ko chỉ rõ controller, hiểu là controller hiện tại.
             }
             $this->Flash->error(__('The bookmark could not be saved. Please, try again.'));
         }
-        $users = $this->Bookmarks->Users->find('list', ['limit' => 200]);
-        $tags = $this->Bookmarks->Tags->find('list', ['limit' => 200]);
+
+        // * Display or Redisplay (when save failed) the add form
+        $users = $this->Bookmarks->Users->find('list', ['limit' => 200]); // Lấy qua quan hệ
+        $tags = $this->Bookmarks->Tags->find('list', ['limit' => 200]); // Lấy qua quan hệ
+
+        // Set some view variables (use in view layer)
         $this->set(compact('bookmark', 'users', 'tags'));
     }
 
