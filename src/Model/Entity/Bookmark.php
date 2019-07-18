@@ -36,4 +36,9 @@ class Bookmark extends Entity
         'user' => true,
         'tags' => true
     ];
+
+    public function numberOfTags()
+    {
+        return count($this->tags);
+    }
 }

@@ -23,6 +23,9 @@
                 <th scope="col"><?= $this->Paginator->sort('user_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('title') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('url') ?></th>
+
+                <th># of Tags</th>
+
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -35,6 +38,9 @@
                 <td><?= $bookmark->has('user') ? $this->Html->link($bookmark->user->id, ['controller' => 'Users', 'action' => 'view', $bookmark->user->id]) : '' ?></td>
                 <td><?= h($bookmark->title) ?></td>
                 <td><?= h($bookmark->url) ?></td>
+
+                <td><?= $bookmark->numberOfTags() ?></td>
+
                 <td><?= h($bookmark->created) ?></td>
                 <td><?= h($bookmark->modified) ?></td>
                 <td class="actions">
