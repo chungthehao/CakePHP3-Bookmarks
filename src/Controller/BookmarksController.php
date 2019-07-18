@@ -12,6 +12,13 @@ use App\Controller\AppController;
  */
 class BookmarksController extends AppController
 {
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->loadComponent('Validate');
+    }
+
     /**
      * Index method
      *
@@ -33,8 +40,11 @@ class BookmarksController extends AppController
         $this->set(compact('bookmarks'));
     }
 
-    public function export($limit = 100) // ~/bookmarks/export/2
+    public function export($limit) // ~/bookmarks/export/2
     {
+        // * Dùng custom component
+        $limit = $this->Validate->validLimit($limit, 100);
+
         $bookmarks = $this->Bookmarks->find('all')->limit($limit)->where([
             'user_id' => 1
         ])->contain([
