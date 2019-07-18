@@ -34,7 +34,8 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => ['Bookmarks']
+            // * 'contain' is how CakePHP knows to include these associated models
+            'contain' => ['Bookmarks', 'LastBookmarks']
         ]);
 
         $this->set('user', $user);

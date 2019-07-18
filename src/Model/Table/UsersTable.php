@@ -7,6 +7,21 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
+ * --------------- ORM ---------------
+ * # Table class (The database table, collection of entities)
+ * - Associations (các mối quan hệ giữa các bảng)
+ * - Behaviors (Helper classes for the model layer)
+ * - Validation (Validating data)
+ * - Actually communicating with the actual database backend
+ * - Các truy vấn, cách lưu ntn sẽ viết ở đây
+ *
+ * # Entities (A database row, collection of data that makes up a single record)
+ * - Tập trung vào việc data
+ * - Chẳng hạn như form submit để thêm gì đó, 1 instance của entity
+ * - Interact with the single object --> means the entity
+ */
+
+/**
  * Users Model
  *
  * @property \App\Model\Table\BookmarksTable|\Cake\ORM\Association\HasMany $Bookmarks
@@ -42,6 +57,10 @@ class UsersTable extends Table
 
         $this->hasMany('Bookmarks', [
             'foreignKey' => 'user_id'
+        ]);
+        $this->hasOne('LastBookmarks', [
+            'className' => 'Bookmarks',
+            'foreignKey' => 'user_id',
         ]);
     }
 
