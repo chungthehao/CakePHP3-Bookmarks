@@ -3,7 +3,15 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Bookmark $bookmark
  */
+
+// To assign a string to the view block (giống element mà element thì cần truyền rõ cái gì lúc xài, còn này thì placeholder)
+$this->assign('title', $bookmark->title); // Lẽ ra là chữ 'Bookmarks' (default dùng tên controller), bây giờ động theo title
+// Param 1 ('title'): the name of the view block
+// Param 2: value cần set
 ?>
+<?php $this->prepend('title', 'View'); ?>
+<?php $this->append('title', 'Bookmark'); ?>
+<!-- Cuối cùng thì: ViewGoogleBookmark -->
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
