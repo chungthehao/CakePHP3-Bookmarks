@@ -56,7 +56,10 @@ class UsersTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->hasMany('Bookmarks', [
-            'foreignKey' => 'user_id'
+            'foreignKey' => 'user_id',
+
+            // When 'dependent' is set to true, and an entity is deleted, the data of the join table will be deleted.
+            'dependent' => true,
         ]);
         $this->hasOne('LastBookmarks', [
             'className' => 'Bookmarks',
