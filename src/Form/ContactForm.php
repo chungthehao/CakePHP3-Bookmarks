@@ -3,6 +3,7 @@ namespace App\Form;
 
 use Cake\Form\Form;
 use Cake\Form\Schema;
+use Cake\Mailer\Email;
 use Cake\Validation\Validator;
 
 /**
@@ -53,6 +54,17 @@ class ContactForm extends Form
      */
     protected function _execute(array $data)
     {
+        $email = new Email();
+
+        // Fluent interface: A fluent interface allows you to chain method calls
+        $email
+            ->setFrom('henry@chung.com', 'Bookmarks')
+            ->setTo($data['email'], $data['name'])
+            ->setTemplate('default')
+            ->setTransport('default')
+            ->setViewVars(compact('data'))
+            ->send();
+
         return true;
     }
 }
