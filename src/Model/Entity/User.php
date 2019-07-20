@@ -1,6 +1,8 @@
 <?php
 namespace App\Model\Entity;
 
+use Cake\Log\LogTrait;
+use Psr\Log\LogLevel;
 use Cake\ORM\Entity;
 
 /**
@@ -18,6 +20,10 @@ use Cake\ORM\Entity;
  */
 class User extends Entity
 {
+    # Trait: Cung cấp (các) method cho mình dùng.
+    # Import the trait & use it in our class
+    use LogTrait;
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -50,5 +56,12 @@ class User extends Entity
     protected function _getName()
     {
         return $this->firstname . ' ' . $this->lastname;
+    }
+
+    # Setter: Muốn set thì phải tồn tại giá trị này thiệt -> CHẮC CHẮN có param pass vô.
+    protected function _setPassword($password)
+    {
+        $this->log('User changing password', LogLevel::DEBUG);
+        return $password; // Bắt buộc có nha! (Vì ý nghĩa của setter là sẽ set cái gì ở đây trả về cho field đó.)
     }
 }
