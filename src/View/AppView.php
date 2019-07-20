@@ -39,5 +39,6 @@ class AppView extends View
         parent::initialize();
 
         $this->loadHelper('Time');
+        $this->loadHelper('Bookmark');
     }
 }
