@@ -12,6 +12,7 @@
  * @since         0.10.0
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
+$this->assign('title', $title);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>

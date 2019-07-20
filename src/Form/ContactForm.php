@@ -54,15 +54,21 @@ class ContactForm extends Form
      */
     protected function _execute(array $data)
     {
+        $title = 'My Bookmarks';
         $email = new Email();
 
         // Fluent interface: A fluent interface allows you to chain method calls
+        $email->viewBuilder()
+                ->setLayout('default')
+                ->setTemplate('default');
+
         $email
             ->setFrom('henry@chung.com', 'Bookmarks')
             ->setTo($data['email'], $data['name'])
-            ->setTemplate('default')
             ->setTransport('default')
-            ->setViewVars(compact('data'))
+            ->setSubject('Test Chơi Thôi')
+            ->setViewVars(compact('data', 'title'))
+            ->setEmailFormat('both') /* text/html/both */
             ->send();
 
         return true;
