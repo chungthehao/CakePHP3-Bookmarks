@@ -70,6 +70,104 @@ class BookmarksController extends AppController
         $this->set('bookmarks', $bookmarks);
     }
 
+    # To explore collections
+    public function collectionTest()
+    {
+        // We're NOT going to attempt to render a view file with this method
+        $this->autoRender = false;
+
+        //--------------------------------------------------------------------
+
+        $bookmarks = $this->Bookmarks->find('list');
+
+        debug("Each");
+        $bookmarks->each(function ($value, $key) {
+            echo "Element $key: $value" . '<br />';
+        });
+
+        //--------------------------------------------------------------------
+        echo '----------------------------------------------------------<br />';
+
+        $bookmarks = $this->Bookmarks
+            ->find('all')
+            ->contain([
+                'Users', 'Tags',
+            ]);
+
+        $collection = $bookmarks->extract('title');
+        debug("Extract:title");
+        debug($collection);
+        debug($collection->toArray());
+
+        echo '----------------------------------------------------------<br />';
+
+        $collection = $bookmarks->extract(function ($bookmark) {
+            return $bookmark->user->id . ', ' . $bookmark->user->name;
+        });
+        debug("Extract:callback");
+        debug($collection);
+        debug($collection->toArray());
+
+        echo '----------------------------------------------------------<br />';
+
+        $collection = $bookmarks->filter(function ($bookmark, $key) {
+            return $bookmark->user->id === 1;
+        });
+        debug("Filter:callback");
+        debug($collection);
+        debug($collection->toArray());
+
+        echo '----------------------------------------------------------<br />';
+
+        $collection = $bookmarks->reject(function ($bookmark, $key) {
+            return $bookmark->user->id === 1;
+        });
+        debug("Reject:callback");
+        debug($collection);
+        debug($collection->toArray());
+
+        echo '----------------------------------------------------------<br />';
+
+        $boolResult = $bookmarks->every(function ($bookmark, $key) {
+            return $bookmark->user->id === 1;
+        });
+        debug("Every:callback");
+        debug($boolResult);
+
+        echo '----------------------------------------------------------<br />';
+
+        $boolResult = $bookmarks->some(function ($bookmark, $key) {
+            return $bookmark->user->id === 1;
+        });
+        debug("Some:callback");
+        debug($boolResult);
+
+        echo '----------------------------------------------------------<br />';
+
+        $minResult = $bookmarks->min(function ($bookmark) {
+            return count($bookmark->tags);
+        });
+        debug("Min:callback");
+        debug($minResult);
+
+        echo '----------------------------------------------------------<br />';
+
+        $maxResult = $bookmarks->max(function ($bookmark) {
+            return count($bookmark->tags);
+        });
+        debug("Max:callback");
+        debug($maxResult);
+
+        echo '----------------------------------------------------------<br />';
+
+        $countByResult = $bookmarks->countBy(function ($bookmark) {
+            return (count($bookmark->tags) == 1) ? 'One Tag' : 'More Than One Tag';
+        });
+        debug("CountBy:callback");
+        debug($countByResult);
+        debug($countByResult->toArray());
+    }
+
     /**
      * View method
      *
