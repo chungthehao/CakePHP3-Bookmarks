@@ -3,7 +3,7 @@ namespace App\Form;
 
 use Cake\Form\Form;
 use Cake\Form\Schema;
-use Cake\Mailer\Email;
+use Cake\Mailer\MailerAwareTrait;
 use Cake\Validation\Validator;
 
 /**
@@ -11,6 +11,8 @@ use Cake\Validation\Validator;
  */
 class ContactForm extends Form
 {
+    use MailerAwareTrait;
+
     /**
      * Builds the schema for the modelless form
      *
@@ -54,22 +56,7 @@ class ContactForm extends Form
      */
     protected function _execute(array $data)
     {
-        $title = 'My Bookmarks';
-        $email = new Email();
-
-        // Fluent interface: A fluent interface allows you to chain method calls
-        $email->viewBuilder()
-                ->setLayout('default')
-                ->setTemplate('default');
-
-        $email
-            ->setFrom('henry@chung.com', 'Bookmarks')
-            ->setTo($data['email'], $data['name'])
-            ->setTransport('default')
-            ->setSubject('Test Chơi Thôi')
-            ->setViewVars(compact('data', 'title'))
-            ->setEmailFormat('both') /* text/html/both */
-            ->send();
+        $this->getMailer('ContactForm')->send('submission', [$data]);
 
         return true;
     }
