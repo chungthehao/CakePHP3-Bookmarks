@@ -2,6 +2,8 @@
 namespace App\Test\TestCase\Model\Behavior;
 
 use App\Model\Behavior\UsersFindBehavior;
+use App\Model\Table\BookmarksTable;
+use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
@@ -14,7 +16,14 @@ class UsersFindBehaviorTest extends TestCase
      *
      * @var \App\Model\Behavior\UsersFindBehavior
      */
-    public $UsersFind;
+    public $Bookmarks;
+
+    public $fixtures = [
+        'app.Bookmarks',
+        'app.Users',
+        'app.Tags',
+        'app.BookmarksTags'
+    ];
 
     /**
      * setUp method
@@ -24,7 +33,8 @@ class UsersFindBehaviorTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->UsersFind = new UsersFindBehavior();
+        $config = TableRegistry::getTableLocator()->exists('Bookmarks') ? [] : ['className' => BookmarksTable::class];
+        $this->Bookmarks = TableRegistry::getTableLocator()->get('Bookmarks', $config);
     }
 
     /**
@@ -47,5 +57,18 @@ class UsersFindBehaviorTest extends TestCase
     public function testInitialization()
     {
         $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    public function testFindForUser()
+    {
+        // Chuẩn bị cái để assert
+        $count = $this->Bookmarks->find('forUser', ['user_id' => 1])->count();
+        // Assert
+        $this->assertEquals(1, $count);
+
+        // Chuẩn bị cái để assert
+        $count = $this->Bookmarks->find('forUser', ['user_id' => 0])->count();
+        // Assert
+        $this->assertEquals(0, $count);
     }
 }
