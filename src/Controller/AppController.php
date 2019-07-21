@@ -48,6 +48,15 @@ class AppController extends Controller
             'enableBeforeRedirect' => false,
         ]);
         $this->loadComponent('Flash');
+        $this->loadComponent('Auth', [
+            'authenticate' => [
+                'Form' => [
+                    'fields' => [
+                        'username' => 'email' // Config để nó xài email cho username
+                    ]
+                ]
+            ]
+        ]);
 
         /*
          * Enable the following component for recommended CakePHP security settings.

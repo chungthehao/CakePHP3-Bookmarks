@@ -4,6 +4,7 @@ namespace App\Model\Entity;
 use Cake\Log\LogTrait;
 use Psr\Log\LogLevel;
 use Cake\ORM\Entity;
+use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * User Entity
@@ -62,6 +63,6 @@ class User extends Entity
     protected function _setPassword($password)
     {
         $this->log('User changing password', LogLevel::DEBUG);
-        return $password; // Bắt buộc có nha! (Vì ý nghĩa của setter là sẽ set cái gì ở đây trả về cho field đó.)
+        return (new DefaultPasswordHasher())->hash($password); // Bắt buộc có nha! (Vì ý nghĩa của setter là sẽ set cái gì ở đây trả về cho field đó.)
     }
 }
