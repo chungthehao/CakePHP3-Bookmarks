@@ -50,4 +50,22 @@ class BookmarkHelperTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    public function testUrl()
+    {
+        // Chuẩn bị 1 instance của Bookmark entity để pass vô url để test
+        $data = [
+            'title' => 'TITLE',
+            'url' => 'http://test.com'
+        ];
+        $bookmark = new \App\Model\Entity\Bookmark($data);
+
+        // $this->Bookmark: Instance of BookmarkHelper
+        $output = $this->Bookmark->url($bookmark);
+        $expected = '<a href="http://test.com" target="_blank" title="TITLE">http://test.com</a>';
+
+        // Assert: output đúng cái expected
+        $this->assertEquals($expected, $output);
+        # Chạy: vendor/bin/phpunit tests/TestCase/View/Helper/BookmarkHelperTest.php để test
+    }
 }
