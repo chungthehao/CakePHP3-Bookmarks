@@ -46,6 +46,7 @@ class BookmarksController extends AppController
         $limit = $this->Validate->validLimit($limit, 100);
 
         // * Dùng custom behavior 'UsersFindBehavior'
+        // | Lúc sau: dùng custom plugin UsersFind (code ở đây ko đổi, đổi chỗ load behavior thôi)
         $bookmarks = $this->Bookmarks
             ->find('forUser', ['user_id' => 1])
             ->limit($limit);
