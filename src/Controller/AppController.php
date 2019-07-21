@@ -73,7 +73,13 @@ class AppController extends Controller
     # Chp phép / cấm user ĐÃ login (true-cho false-cấm)
     public function isAuthorized($user)
     {
+        # Cho jane làm admin
+        if (null !== $this->request->getParam('prefix')
+            && ('admin' === $this->request->getParam('prefix'))) {
+            return $user['email'] === 'jane@localhost.com';
+        }
+
         // - Bởi vì hiện tại thì tất cả các users đều access đc toàn website khi login
-        return true;
+        //return true;
     }
 }

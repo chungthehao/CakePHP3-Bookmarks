@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Controller\AppController;
 
@@ -12,30 +12,6 @@ use App\Controller\AppController;
  */
 class UsersController extends AppController
 {
-    public function isAuthorized($user)
-    {
-        # Giả sử như giờ mình muốn (Đối với những user đã login rồi)
-        // - Tất cả user ko vô đc UsersController trừ user có email là jane@localhost.com
-        return $user['email'] === 'jane@localhost.com'; // true-cho | false-cấm
-    }
-
-    public function login()
-    {
-        if ($this->request->is('post')) {
-            $user = $this->Auth->identify();
-            if ($user) {
-                $this->Auth->setUser($user);
-                return $this->redirect($this->Auth->redirectUrl());
-            }
-            $this->Flash->error(__('Invalid email or password, try again!'));
-        }
-    }
-
-    public function logout()
-    {
-        return $this->redirect($this->Auth->logout());
-    }
-
     /**
      * Index method
      *
@@ -58,8 +34,7 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            // * 'contain' is how CakePHP knows to include these associated models
-            'contain' => ['Bookmarks', 'LastBookmarks']
+            'contain' => ['LastBookmarks', 'Bookmarks']
         ]);
 
         $this->set('user', $user);
@@ -119,8 +94,8 @@ class UsersController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $user = $this->Users->get($id); // Get the matching user entity for the given id
-        if ($this->Users->delete($user)) { // the table delete method
+        $user = $this->Users->get($id);
+        if ($this->Users->delete($user)) {
             $this->Flash->success(__('The user has been deleted.'));
         } else {
             $this->Flash->error(__('The user could not be deleted. Please, try again.'));

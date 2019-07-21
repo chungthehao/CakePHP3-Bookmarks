@@ -102,3 +102,9 @@ Router::scope('/', function (RouteBuilder $routes) {
  * });
  * ```
  */
+
+Router::prefix('admin', function (RouteBuilder $routes) {
+    # DashedRoute is a standard CakePHP class for routes where the controller are pluralized
+    // and multiple words are separated by dashes
+    $routes->fallbacks('DashedRoute');
+});
