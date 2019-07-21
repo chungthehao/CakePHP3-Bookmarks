@@ -18,7 +18,8 @@ class ContactsControllerTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.Contacts'
+        # Because our ContactsController is a model-less form and has no actual database table backing it
+        //'app.Contacts'
     ];
 
     /**
