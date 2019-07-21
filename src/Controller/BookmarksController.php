@@ -48,14 +48,14 @@ class BookmarksController extends AppController
         // * Dùng custom behavior 'UsersFindBehavior'
         $bookmarks = $this->Bookmarks
             ->find('forUser', ['user_id' => 1])
-            ->limit($limit)
-            ->contain([
+            ->limit($limit);
+            /*->contain([
                 'Tags' => function ($q) {
                     return $q->where([
                         'Tags.name LIKE' => '%t%'
                     ]);
                 }
-            ]);
+            ]);*/
 
         /*$bookmarks = $this->Bookmarks->find('all')->limit($limit)->where([
             'user_id' => 1
@@ -67,6 +67,14 @@ class BookmarksController extends AppController
             }
         ]);*/
 
+        // Chuẩn bị 3 thứ cho CsvView
+        $this->set('_serialize', 'bookmarks');
+        $this->set('_header', ['Title', 'URL']);
+        $this->set('_extract', ['title', 'url']);
+        // CsvView plugin uses a custom view class to engage its behavior (view classes: AppView class, AjaxView class)
+        $this->viewBuilder()->setClassName('CsvView.Csv');
+        // 'CsvView.Csv' CakePHP knows to search the plugin, named 'CsvView', for the 'Csv' view class
+        $this->setResponse($this->getResponse()->withDownload('my-bookmarks.csv')); // custom tên của file
         $this->set('bookmarks', $bookmarks);
     }
 

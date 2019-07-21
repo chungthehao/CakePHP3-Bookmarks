@@ -50,6 +50,7 @@ class Application extends BaseApplication
         }
 
         // Load more plugins here
+        $this->addPlugin('CsvView'); // Load plugin (~ thư viện) Csv lên xài
     }
 
     /**
