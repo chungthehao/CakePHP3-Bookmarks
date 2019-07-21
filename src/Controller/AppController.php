@@ -55,7 +55,12 @@ class AppController extends Controller
                         'username' => 'email' // Config để nó xài email cho username
                     ]
                 ]
-            ]
+            ],
+
+            // - This says to use a controller method to authorize users to access the controller
+            // - The controller method that we'll use is called "isAuthorized" ở AppController
+            // để làm base cho những controller khác
+            'authorize' => ['Controller'],
         ]);
 
         /*
@@ -63,5 +68,12 @@ class AppController extends Controller
          * see https://book.cakephp.org/3.0/en/controllers/components/security.html
          */
         //$this->loadComponent('Security');
+    }
+
+    # Chp phép / cấm user ĐÃ login (true-cho false-cấm)
+    public function isAuthorized($user)
+    {
+        // - Bởi vì hiện tại thì tất cả các users đều access đc toàn website khi login
+        return true;
     }
 }

@@ -12,6 +12,13 @@ use App\Controller\AppController;
  */
 class UsersController extends AppController
 {
+    public function isAuthorized($user)
+    {
+        # Giả sử như giờ mình muốn (Đối với những user đã login rồi)
+        // - Tất cả user vô đc UsersController trừ user có email là jane@localhost.com
+        return $user['email'] !== 'jane@localhost.com'; // true-cho | false-cấm
+    }
+
     public function login()
     {
         if ($this->request->is('post')) {
