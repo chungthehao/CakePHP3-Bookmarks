@@ -41,7 +41,7 @@ class BookmarksTable extends Table
 
         $this->addBehavior('Timestamp');
         //$this->addBehavior('UsersFind');
-        $this->addBehavior('UsersFind.UsersFind');
+        $this->addBehavior('UsersFind.UsersFind'); // Syntax để load behavior trong plugin
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
